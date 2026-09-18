@@ -22,6 +22,18 @@ pipeline {
                 '''
             }
         }
+
+        stage('Test Application') {
+            steps {
+                sh '''
+                    docker run --rm \
+                        -v "$WORKSPACE:/app" \
+                        -w /app \
+                        node:16 \
+                        npm test
+                '''
+            }
+        }
     }
 
     post {
