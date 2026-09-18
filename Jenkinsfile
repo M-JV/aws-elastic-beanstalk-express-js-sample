@@ -49,6 +49,17 @@ pipeline {
                 }
             }
         }
+
+        stage('Build Docker Image') {
+            steps {
+                sh '''
+                    docker build \
+                        -t mejova/isec6000-node-app:${BUILD_NUMBER} \
+                        -t mejova/isec6000-node-app:latest \
+                        .
+                '''
+            }
+        }
     }
 
     post {
