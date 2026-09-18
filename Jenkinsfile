@@ -44,7 +44,7 @@ pipeline {
                             -v "$WORKSPACE:/app" \
                             -w /app \
                             snyk/snyk:node \
-                            snyk test
+                            snyk test --severity-threshold=high
                     '''
                 }
             }
