@@ -60,7 +60,28 @@ pipeline {
                 '''
             }
         }
-    }
+
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-credentials',
+                    usernameVariable: 'DOCKERHUB_USERNAME',
+                    passwordVariable: 'DOCKERHUB_TOKEN'
+                )]) {
+                    sh '''
+                        echo "$DOCKERHUB_TOKEN" | docker login \
+                            -u "$DOCKERHUB_USERNAME" \
+                            --password-stdin
+
+                        docker push mejova/isec6000-node-app:${BUILD_NUMBER}
+                        docker push mejova/isec6000-node-app:latest
+
+                        docker logout
+                    '''
+                }
+            }
+        }
+}
 
     post {
         always {
