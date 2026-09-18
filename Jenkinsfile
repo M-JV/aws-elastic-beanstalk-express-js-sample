@@ -81,6 +81,20 @@ pipeline {
                 }
             }
         }
+
+        stage('Archive Build Metadata') {
+            steps {
+                sh '''
+                    echo "Jenkins Build: ${BUILD_NUMBER}" > build-metadata.txt
+                    echo "Git Commit: ${GIT_COMMIT}" >> build-metadata.txt
+                    echo "Docker Image: mejova/isec6000-node-app:${BUILD_NUMBER}" >> build-metadata.txt
+                    echo "Latest Image: mejova/isec6000-node-app:latest" >> build-metadata.txt
+                '''
+
+                archiveArtifacts artifacts: 'build-metadata.txt',
+                                 fingerprint: true
+            }
+        }
 }
 
     post {
