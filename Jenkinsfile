@@ -34,6 +34,21 @@ pipeline {
                 '''
             }
         }
+
+        stage('Security Scan') {
+            steps {
+                withCredentials([string(credentialsId: 'snyk-api-token', variable: 'SNYK_TOKEN')]) {
+                    sh '''
+                        docker run --rm \
+                            -e SNYK_TOKEN="$SNYK_TOKEN" \
+                            -v "$WORKSPACE:/app" \
+                            -w /app \
+                            snyk/snyk:node \
+                            snyk test
+                    '''
+                }
+            }
+        }
     }
 
     post {
