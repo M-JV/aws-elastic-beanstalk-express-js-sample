@@ -7,7 +7,7 @@
     "start": "node app.js",
     "test:unit": "node unit.test.js",
     "test:smoke": "node test.js",
-    "test": "npm run test:unit && npm run test:smoke"
+    "test": "node unit.test.js && node test.js"
   },
   "repository": {
     "type": "git",
