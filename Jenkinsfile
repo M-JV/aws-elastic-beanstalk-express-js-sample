@@ -3,34 +3,47 @@ pipeline {
 
     stages {
         stage('Environment') {
+            agent {
+                docker {
+                    image 'node:16'
+                    reuseNode true
+                }
+            }
+
             steps {
                 sh '''
-                    docker run --rm node:16 node --version
-                    docker run --rm node:16 npm --version
+                    node --version
+                    npm --version
                 '''
             }
         }
 
         stage('Install Dependencies') {
+            agent {
+                docker {
+                    image 'node:16'
+                    reuseNode true
+                }
+            }
+
             steps {
                 sh '''
-                    docker run --rm \
-                        -v "$WORKSPACE:/app" \
-                        -w /app \
-                        node:16 \
-                        npm ci
+                    npm ci
                 '''
             }
         }
 
         stage('Test Application') {
+            agent {
+                docker {
+                    image 'node:16'
+                    reuseNode true
+                }
+            }
+
             steps {
                 sh '''
-                    docker run --rm \
-                        -v "$WORKSPACE:/app" \
-                        -w /app \
-                        node:16 \
-                        npm test
+                    npm test
                 '''
             }
         }
@@ -95,7 +108,7 @@ pipeline {
                                  fingerprint: true
             }
         }
-}
+    }
 
     post {
         always {
