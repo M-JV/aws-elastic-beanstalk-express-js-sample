@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "node test.js"
+    "test:unit": "node unit.test.js",
+    "test:smoke": "node test.js",
+    "test": "npm run test:unit && npm run test:smoke"
   },
   "repository": {
     "type": "git",
